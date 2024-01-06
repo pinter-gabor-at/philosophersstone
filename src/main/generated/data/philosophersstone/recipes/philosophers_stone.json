@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "O": {
+      "item": "minecraft:honey_bottle"
+    }
+  },
+  "pattern": [
+    " D ",
+    "GOG",
+    " D "
+  ],
+  "result": {
+    "item": "philosophersstone:philosophers_stone"
+  }
+}
