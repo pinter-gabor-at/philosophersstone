@@ -1,8 +1,8 @@
 {
-	"schemaVersion": 1,
-	"id": "philosophersstone",
-	"version": "${version}",
-	"name": "philosophersstone",
+  "schemaVersion": 1,
+  "id": "philosophersstone",
+  "version": "${version}",
+  "name": "philosophersstone",
   "description": "The philosopher's stone is a mythic alchemical substance",
   "authors": [
     "Pintér Gábor <pinter.gabor@gmx.at>"
@@ -16,19 +16,22 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-		"eu.pintergabor.philosophersstone.Mod"
-		],
-		"fabric-datagen": [
-			"eu.pintergabor.philosophersstone.Datagen"
-		]
-	},
-	"mixins": [
-		"mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.15",
-		"minecraft": "~1.20.4",
-		"java": ">=17",
-		"fabric-api": "*"
-	}
+      "eu.pintergabor.philosophersstone.Mod"
+    ],
+    "fabric-datagen": [
+      "eu.pintergabor.philosophersstone.Datagen"
+    ],
+    "client": [
+      "eu.pintergabor.philosophersstone.ModClient"
+    ]
+  },
+  "mixins": [
+    "mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15",
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
 }
