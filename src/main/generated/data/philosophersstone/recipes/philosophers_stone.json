@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "philosophersstone:crafting_extra_shaped",
   "category": "equipment",
   "key": {
     "D": {
@@ -9,7 +9,7 @@
       "item": "minecraft:gold_ingot"
     },
     "O": {
-      "item": "minecraft:honey_bottle"
+      "item": "minecraft:potion"
     }
   },
   "pattern": [
@@ -17,7 +17,7 @@
     "GOG",
     " D "
   ],
-  "result": {
+  "resultx": {
     "item": "philosophersstone:philosophers_stone"
   }
 }

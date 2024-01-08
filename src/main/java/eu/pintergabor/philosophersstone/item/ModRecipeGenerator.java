@@ -1,7 +1,8 @@
 package eu.pintergabor.philosophersstone.item;
 
+import eu.pintergabor.philosophersstone.recipe.ExtraShapedRecipeJsonBuilder;
+
 import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
@@ -16,11 +17,11 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
 
 	@Override
 	public void generate(RecipeExporter exporter) {
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.PHILOSPHER_STONE_ITEM)
+		ExtraShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.PHILOSPHER_STONE_ITEM)
 			.pattern(" D ")
 			.pattern("GOG")
 			.pattern(" D ")
-			.input('O', Items.HONEY_BOTTLE)
+			.input('O', Items.POTION)
 			.input('D', Items.DIAMOND)
 			.input('G', Items.GOLD_INGOT)
 			.criterion("has_" + Items.DIAMOND, conditionsFromItem(Items.DIAMOND))
