@@ -72,11 +72,11 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 						}
 					}
 				}
-			}
-			Result r = RESULTMAP.get(key);
-			if (r != null) {
-				result = new ItemStack(r.item, r.count);
-				return true;
+				Result r = RESULTMAP.get(key);
+				if (r != null) {
+					result = new ItemStack(r.item, r.count);
+					return true;
+				}
 			}
 		}
 		return false;

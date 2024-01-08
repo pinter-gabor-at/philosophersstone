@@ -22,7 +22,7 @@ public final class ModItems {
 	public static void register() {
 		// Create and register philosophers stone
 		PHILOSPHER_STONE_ITEM = new PhilosopherStoneItem(
-			new FabricItemSettings().maxDamage(100));
+			new FabricItemSettings().maxDamage(20));
 		PHILOSPHER_STONE_ITEM_ID = new ModIdentifier("philosophers_stone");
 		registerItem(PHILOSPHER_STONE_ITEM_ID, PHILOSPHER_STONE_ITEM);
 		// Item groups
