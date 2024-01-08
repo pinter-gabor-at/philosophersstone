@@ -2,7 +2,9 @@
   "required": true,
   "package": "eu.pintergabor.philosophersstone.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["ShapedRecipeAccessor", "ShapedRecipeJsonBuilderAccessor"],
+  "mixins": [
+
+  ],
   "client": [
     "ItemRendererAccessor",
     "ItemRendererMixin",
