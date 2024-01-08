@@ -18,9 +18,6 @@
     "main": [
       "eu.pintergabor.philosophersstone.Mod"
     ],
-    "fabric-datagen": [
-      "eu.pintergabor.philosophersstone.Datagen"
-    ],
     "client": [
       "eu.pintergabor.philosophersstone.ModClient"
     ]
