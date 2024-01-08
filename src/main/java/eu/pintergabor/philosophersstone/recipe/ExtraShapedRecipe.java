@@ -26,28 +26,28 @@ public class ExtraShapedRecipe extends ShapedRecipe {
 	public boolean matches(RecipeInputInventory recipeInputInventory, World world) {
 		return super.matches(recipeInputInventory, world);
 	}
+//
+//	/**
+//	 * Special type
+//	 */
+//	@Override
+//	public RecipeType<?> getType() {
+//		return Type.INSTANCE;
+//	}
+//
+//	/**
+//	 * Special type
+//	 */
+//	public static class Type implements RecipeType<ExtraShapedRecipe> {
+//		public static final ExtraShapedRecipe.Type INSTANCE = new Type();
+//		public static final String ID = "crafting_extra_shaped";
+//
+//		private Type() {
+//		}
+//	}
 
 	/**
-	 * Special type
-	 */
-	@Override
-	public RecipeType<?> getType() {
-		return Type.INSTANCE;
-	}
-
-	/**
-	 * Special type
-	 */
-	public static class Type implements RecipeType<ExtraShapedRecipe> {
-		public static final ExtraShapedRecipe.Type INSTANCE = new Type();
-		public static final String ID = "crafting_extra_shaped";
-
-		private Type() {
-		}
-	}
-
-	/**
-	 * Extra serializer
+	 * Extra SERIALIZER
 	 */
 	@Override
 	public RecipeSerializer<?> getSerializer() {
@@ -55,7 +55,7 @@ public class ExtraShapedRecipe extends ShapedRecipe {
 	}
 
 	/**
-	 * Extra serializer
+	 * Extra SERIALIZER
 	 * <p>
 	 * which is almost the same as in {@link ShapedRecipe}.
 	 */

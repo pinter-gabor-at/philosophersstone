@@ -16,8 +16,11 @@ public class ModRecipes {
 		Registry.register(Registries.RECIPE_SERIALIZER,
 			new ModIdentifier(ExtraShapedRecipe.Serializer.ID),
 			ExtraShapedRecipe.Serializer.INSTANCE);
-		Registry.register(Registries.RECIPE_TYPE,
-			new ModIdentifier(ExtraShapedRecipe.Type.ID),
-			ExtraShapedRecipe.Type.INSTANCE);
+//		Registry.register(Registries.RECIPE_TYPE,
+//			new ModIdentifier(ExtraShapedRecipe.Type.ID),
+//			ExtraShapedRecipe.Type.INSTANCE);
+		Registry.register(Registries.RECIPE_SERIALIZER,
+			new ModIdentifier(PhilosophersStoneRecipe.ID),
+			PhilosophersStoneRecipe.SERIALIZER);
 	}
 }
