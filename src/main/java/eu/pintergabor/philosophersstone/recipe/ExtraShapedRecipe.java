@@ -16,11 +16,9 @@ import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.World;
 
 public class ExtraShapedRecipe extends ShapedRecipe {
-	public ExtraShapedRecipe(String group, CraftingRecipeCategory category, RawShapedRecipe raw, ItemStack result, boolean showNotification) {
-		super(group, category, raw, result, showNotification);
-	}
 
-	public ExtraShapedRecipe(String group, CraftingRecipeCategory category, RawShapedRecipe raw, ItemStack result) {
+	public ExtraShapedRecipe(String group, CraftingRecipeCategory category,
+		RawShapedRecipe raw, ItemStack result) {
 		super(group, category, raw, result);
 	}
 
@@ -29,16 +27,17 @@ public class ExtraShapedRecipe extends ShapedRecipe {
 		return super.matches(recipeInputInventory, world);
 	}
 
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return Serializer.INSTANCE;
-	}
-
+	/**
+	 * Special type
+	 */
 	@Override
 	public RecipeType<?> getType() {
 		return Type.INSTANCE;
 	}
 
+	/**
+	 * Special type
+	 */
 	public static class Type implements RecipeType<ExtraShapedRecipe> {
 		public static final ExtraShapedRecipe.Type INSTANCE = new Type();
 		public static final String ID = "crafting_extra_shaped";
@@ -47,25 +46,44 @@ public class ExtraShapedRecipe extends ShapedRecipe {
 		}
 	}
 
+	/**
+	 * Extra serializer
+	 */
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return Serializer.INSTANCE;
+	}
+
+	/**
+	 * Extra serializer
+	 * <p>
+	 * which is almost the same as in {@link ShapedRecipe}.
+	 */
 	public static class Serializer implements RecipeSerializer<ExtraShapedRecipe> {
 		public static final ExtraShapedRecipe.Serializer INSTANCE = new Serializer();
 		public static final String ID = "crafting_extra_shaped";
 		private static Codec<ExtraShapedRecipe> CODEC;
 
 		private Serializer() {
-			CODEC = RecordCodecBuilder.create((instance) -> {
-				return instance.group(Codecs.createStrictOptionalFieldCodec(Codec.STRING, "group", "").forGetter((recipe) -> {
-					return ((ShapedRecipeAccessor) recipe).getGroup();
-				}), CraftingRecipeCategory.CODEC.fieldOf("category").orElse(CraftingRecipeCategory.MISC).forGetter((recipe) -> {
-					return ((ShapedRecipeAccessor) recipe).getCategory();
-				}), RawShapedRecipe.CODEC.forGetter((recipe) -> {
-					return ((ShapedRecipeAccessor) recipe).getRaw();
-				}), ItemStack.RECIPE_RESULT_CODEC.fieldOf("resultx").forGetter((recipe) -> {
-					return ((ShapedRecipeAccessor) recipe).getResult();
-				}), Codecs.createStrictOptionalFieldCodec(Codec.BOOL, "show_notification", true).forGetter((recipe) -> {
-					return true;
-				})).apply(instance, ExtraShapedRecipe::new);
-			});
+			final RecordCodecBuilder<ExtraShapedRecipe, String> rcbGroup =
+				Codecs.createStrictOptionalFieldCodec(Codec.STRING, "group", "")
+					.forGetter((recipe) ->
+						((ShapedRecipeAccessor) recipe).getGroup());
+			final RecordCodecBuilder<ExtraShapedRecipe, CraftingRecipeCategory> rcbCategory =
+				CraftingRecipeCategory.CODEC.fieldOf("category").orElse(CraftingRecipeCategory.MISC)
+					.forGetter((recipe) ->
+						((ShapedRecipeAccessor) recipe).getCategory());
+			final RecordCodecBuilder<ExtraShapedRecipe, RawShapedRecipe> rcbRaw =
+				RawShapedRecipe.CODEC
+					.forGetter((recipe) ->
+						((ShapedRecipeAccessor) recipe).getRaw());
+			final RecordCodecBuilder<ExtraShapedRecipe, ItemStack> rcbResult =
+				ItemStack.RECIPE_RESULT_CODEC.fieldOf("result")
+					.forGetter((recipe) ->
+						((ShapedRecipeAccessor) recipe).getResult());
+			CODEC = RecordCodecBuilder.create((instance) ->
+				instance.group(rcbGroup, rcbCategory, rcbRaw, rcbResult)
+					.apply(instance, ExtraShapedRecipe::new));
 		}
 
 		public Codec<ExtraShapedRecipe> codec() {
@@ -74,20 +92,21 @@ public class ExtraShapedRecipe extends ShapedRecipe {
 
 		public ExtraShapedRecipe read(PacketByteBuf packetByteBuf) {
 			String string = packetByteBuf.readString();
-			CraftingRecipeCategory craftingRecipeCategory = (CraftingRecipeCategory) packetByteBuf.readEnumConstant(CraftingRecipeCategory.class);
-			RawShapedRecipe rawShapedRecipe = RawShapedRecipe.readFromBuf(packetByteBuf);
-			ItemStack itemStack = packetByteBuf.readItemStack();
-			boolean bl = packetByteBuf.readBoolean();
-			return new ExtraShapedRecipe(string, craftingRecipeCategory, rawShapedRecipe, itemStack, bl);
+			CraftingRecipeCategory craftingRecipeCategory =
+				packetByteBuf.readEnumConstant(CraftingRecipeCategory.class);
+			RawShapedRecipe rawShapedRecipe =
+				RawShapedRecipe.readFromBuf(packetByteBuf);
+			ItemStack itemStack =
+				packetByteBuf.readItemStack();
+			return new ExtraShapedRecipe(string, craftingRecipeCategory, rawShapedRecipe, itemStack);
 		}
 
-		public void write(PacketByteBuf packetByteBuf, ExtraShapedRecipe shapedRecipe) {
-			var parent = (ShapedRecipeAccessor) shapedRecipe;
-			packetByteBuf.writeString(parent.getGroup());
-			packetByteBuf.writeEnumConstant(parent.getCategory());
-			parent.getRaw().writeToBuf(packetByteBuf);
-			packetByteBuf.writeItemStack(parent.getResult());
-			packetByteBuf.writeBoolean(true);
+		public void write(PacketByteBuf packetByteBuf, ExtraShapedRecipe recipe) {
+			var r = (ShapedRecipeAccessor) recipe;
+			packetByteBuf.writeString(r.getGroup());
+			packetByteBuf.writeEnumConstant(r.getCategory());
+			r.getRaw().writeToBuf(packetByteBuf);
+			packetByteBuf.writeItemStack(r.getResult());
 		}
 	}
 
