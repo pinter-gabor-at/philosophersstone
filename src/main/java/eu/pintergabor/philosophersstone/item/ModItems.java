@@ -16,15 +16,13 @@ public final class ModItems {
 	}
 
 	// The philosophers stone
-	public static Identifier PHILOSPHER_STONE_ITEM_ID;
 	public static PhilosopherStoneItem PHILOSPHER_STONE_ITEM;
 
 	public static void register() {
 		// Create and register philosophers stone
 		PHILOSPHER_STONE_ITEM = new PhilosopherStoneItem(
 			new FabricItemSettings().maxDamage(20));
-		PHILOSPHER_STONE_ITEM_ID = new ModIdentifier("philosophers_stone");
-		registerItem(PHILOSPHER_STONE_ITEM_ID, PHILOSPHER_STONE_ITEM);
+		registerItem(new ModIdentifier("philosophers_stone"), PHILOSPHER_STONE_ITEM);
 		// Item groups
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(
 			entries -> {
