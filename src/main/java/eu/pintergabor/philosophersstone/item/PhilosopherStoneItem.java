@@ -30,7 +30,7 @@ public final class PhilosopherStoneItem extends Item {
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (!world.isClient() && entity instanceof ServerPlayerEntity player) {
-			StatusEffectInstance statusEffect = new StatusEffectInstance(StatusEffects.REGENERATION, 200, 0);
+			StatusEffectInstance statusEffect = new StatusEffectInstance(StatusEffects.REGENERATION, 600, 0);
 			// Apply statuseffect repeatedly, and increase the damage to the PHILOSPHER_STONE_ITEM
 			if (!player.hasStatusEffect(statusEffect.getEffectType()) && player.getHealth() < 16f) {
 				player.addStatusEffect(statusEffect);

@@ -6,8 +6,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public final class Register {
-	private Register() {
-	}
 
 	/**
 	 * Register mod item

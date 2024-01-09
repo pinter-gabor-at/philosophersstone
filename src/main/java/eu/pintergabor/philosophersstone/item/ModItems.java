@@ -9,11 +9,7 @@ import net.minecraft.item.ItemGroups;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 
-import net.minecraft.util.Identifier;
-
 public final class ModItems {
-	private ModItems() {
-	}
 
 	// The philosophers stone
 	public static PhilosopherStoneItem PHILOSPHER_STONE_ITEM;

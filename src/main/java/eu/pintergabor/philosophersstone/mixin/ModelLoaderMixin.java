@@ -3,6 +3,7 @@ package eu.pintergabor.philosophersstone.mixin;
 import java.util.List;
 import java.util.Map;
 
+import eu.pintergabor.philosophersstone.item.ModItems;
 import eu.pintergabor.philosophersstone.util.ModModelIdentifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,6 +23,9 @@ public abstract class ModelLoaderMixin {
 	@Shadow
 	protected abstract void addModel(ModelIdentifier modelId);
 
+	/**
+	 * Inject the 3D model of {@link ModItems#PHILOSPHER_STONE_ITEM} to make it available when needed
+	 */
 	@Inject(method = "<init>", at = @At(value = "INVOKE",
 		target = "Lnet/minecraft/client/render/model/ModelLoader;addModel(Lnet/minecraft/client/util/ModelIdentifier;)V",
 		ordinal = 3, shift = At.Shift.AFTER))
@@ -29,6 +33,6 @@ public abstract class ModelLoaderMixin {
 		Map<Identifier, JsonUnbakedModel> jsonUnbakedModels,
 		Map<Identifier, List<ModelLoader.SourceTrackedData>> blockStates,
 		CallbackInfo ci) {
-		this.addModel(new ModModelIdentifier("philosophers_stone_3d", "inventory"));
+		addModel(new ModModelIdentifier("philosophers_stone_3d", "inventory"));
 	}
 }

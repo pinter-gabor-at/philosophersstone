@@ -41,10 +41,9 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 		new AbstractMap.SimpleImmutableEntry<>(Items.REDSTONE_TORCH, new Result(Items.REDSTONE_BLOCK, 1)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.STICK, new Result(Items.OAK_LOG, 1))
 	);
-	ItemStack result;
-
 	private record Result(Item item, int count) {
 	}
+	ItemStack result;
 
 	public UsingRecipe(CraftingRecipeCategory category) {
 		super(category);
