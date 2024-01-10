@@ -9,6 +9,7 @@ In Minecraft, after years of research, I discovered its secret recipe:
 The potion in the center is the Potion of Healing. It is the only potion that works.
 
 Legends always have a gist of truth, but they rarely tell the whole truth, so I tested the capabilities of the newly discovered philosopher's stone, and this is what I found:
+
 - It can only be found, and craftable, in worlds where this mod is installed,
 - Its recipes are kept in secret, and do not appear in REI or in any recipe book,
 - I was unable to test if it helps to achieve immortality, because in Minecraft every player is immortal,
