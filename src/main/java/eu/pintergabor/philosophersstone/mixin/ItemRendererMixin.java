@@ -19,7 +19,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 
 @Mixin(ItemRenderer.class)
-public abstract class ItemRendererMixin implements ItemRendererAccessor {
+public abstract class ItemRendererMixin {
 	@Final
 	@Shadow
 	private ItemModels models;

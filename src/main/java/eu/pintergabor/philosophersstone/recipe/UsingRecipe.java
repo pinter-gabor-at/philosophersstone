@@ -4,7 +4,9 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 import eu.pintergabor.philosophersstone.item.ModItems;
+import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,12 +43,46 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 		new AbstractMap.SimpleImmutableEntry<>(Items.REDSTONE_TORCH, new Result(Items.REDSTONE_BLOCK, 1)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.STICK, new Result(Items.OAK_LOG, 1))
 	);
+
+	/**
+	 * Similar to {@link ItemStack}, but lighter
+	 */
 	private record Result(Item item, int count) {
 	}
-	ItemStack result;
+
+	/**
+	 * The crafted result
+	 */
+	private ItemStack result;
 
 	public UsingRecipe(CraftingRecipeCategory category) {
 		super(category);
+	}
+
+	/**
+	 * Check if there is a {@link ModItems#PHILOSPHER_STONE_ITEM} at the center
+	 * @return the {@link ItemStack} of {@link ModItems#PHILOSPHER_STONE_ITEM} on success
+	 */
+	private @Nullable ItemStack testCenter(Inventory inventory) {
+		final ItemStack center = inventory.getStack(4);
+		return center.isOf(ModItems.PHILOSPHER_STONE_ITEM) ? center : null;
+	}
+
+	/**
+	 * Check if there are 8 identical items around the center and try to craft the result
+	 * @return the crafted result
+	 */
+	private @Nullable Result tryCraft(Inventory inventory) {
+		final Item key = inventory.getStack(0).getItem();
+		for (int i = 1; i < 9; i++) {
+			if (i != 4) {
+				ItemStack itemStack = inventory.getStack(i);
+				if (!itemStack.isOf(key)) {
+					return null;
+				}
+			}
+		}
+		return RESULTMAP.get(key);
 	}
 
 	/**
@@ -59,30 +95,18 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	public boolean matches(RecipeInputInventory inventory, World world) {
 		final int w = inventory.getWidth();
 		final int h = inventory.getHeight();
-		if (w == 3 && h == 3) {
-			final ItemStack center = inventory.getStack(4);
-			final Item key = inventory.getStack(0).getItem();
-			if (center.isOf(ModItems.PHILOSPHER_STONE_ITEM)) {
-				for (int i = 1; i < 9; i++) {
-					if (i != 4) {
-						ItemStack itemStack = inventory.getStack(i);
-						if (!itemStack.isOf(key)) {
-							return false;
-						}
-					}
-				}
-				Result r = RESULTMAP.get(key);
-				if (r != null) {
-					result = new ItemStack(r.item, r.count);
-					return true;
-				}
+		if (w == 3 && h == 3 && testCenter(inventory) != null) {
+			Result r = tryCraft(inventory);
+			if (r != null) {
+				result = new ItemStack(r.item, r.count);
+				return true;
 			}
 		}
 		return false;
 	}
 
 	/**
-	 * @return the already crafted result
+	 * @return the already crafted {@link #result}
 	 */
 	@Override
 	public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager registryManager) {
@@ -103,8 +127,8 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 		final int w = inventory.getWidth();
 		final int h = inventory.getHeight();
 		if (w == 3 && h == 3) {
-			ItemStack center = inventory.getStack(4);
-			if (center.isOf(ModItems.PHILOSPHER_STONE_ITEM)) {
+			ItemStack center = testCenter(inventory);
+			if (center != null) {
 				final int damage = center.getDamage();
 				if (damage < center.getMaxDamage()) {
 					// Have to create a new one

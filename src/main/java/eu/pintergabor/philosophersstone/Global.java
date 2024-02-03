@@ -9,5 +9,6 @@ public final class Global {
 	public static final String MODID = "philosophersstone";
 
 	// This logger is used to write text to the console and the log file.
+	@SuppressWarnings("unused")
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 }
