@@ -21,8 +21,6 @@ public final class ModItems {
 		registerItem(new ModIdentifier("philosophers_stone"), PHILOSPHER_STONE_ITEM);
 		// Item groups
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(
-			entries -> {
-				entries.add(PHILOSPHER_STONE_ITEM);
-			});
+			entries -> entries.add(PHILOSPHER_STONE_ITEM));
 	}
 }
