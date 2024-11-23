@@ -147,7 +147,7 @@ public class UsingRecipe extends SpecialCraftingRecipe {
      */
     @Override
     public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
-        return new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
+        return result;
     }
 
     @Override
