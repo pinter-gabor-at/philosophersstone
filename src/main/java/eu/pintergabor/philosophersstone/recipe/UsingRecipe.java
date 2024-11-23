@@ -1,8 +1,6 @@
 package eu.pintergabor.philosophersstone.recipe;
 
 import eu.pintergabor.philosophersstone.item.ModItems;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -10,6 +8,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -63,8 +62,8 @@ public class UsingRecipe extends SpecialCraftingRecipe {
      *
      * @return the {@link ItemStack} of {@link ModItems#PHILOSPHER_STONE_ITEM} on success
      */
-    private @Nullable ItemStack testCenter(Inventory inventory) {
-        final ItemStack center = inventory.getStack(4);
+    private @Nullable ItemStack testCenter(CraftingRecipeInput input) {
+        final ItemStack center = input.getStackInSlot(4);
         return center.isOf(ModItems.PHILOSPHER_STONE_ITEM) ? center : null;
     }
 
@@ -73,11 +72,11 @@ public class UsingRecipe extends SpecialCraftingRecipe {
      *
      * @return the crafted result
      */
-    private @Nullable Result tryCraft(Inventory inventory) {
-        final Item key = inventory.getStack(0).getItem();
+    private @Nullable Result tryCraft(CraftingRecipeInput input) {
+        final Item key = input.getStackInSlot(0).getItem();
         for (int i = 1; i < 9; i++) {
             if (i != 4) {
-                ItemStack itemStack = inventory.getStack(i);
+                ItemStack itemStack = input.getStackInSlot(i);
                 if (!itemStack.isOf(key)) {
                     return null;
                 }
@@ -94,11 +93,11 @@ public class UsingRecipe extends SpecialCraftingRecipe {
      * @return true on match
      */
     @Override
-    public boolean matches(RecipeInputInventory inventory, World world) {
-        final int w = inventory.getWidth();
-        final int h = inventory.getHeight();
-        if (w == 3 && h == 3 && testCenter(inventory) != null) {
-            Result r = tryCraft(inventory);
+    public boolean matches(CraftingRecipeInput input, World world) {
+        final int w = input.getWidth();
+        final int h = input.getHeight();
+        if (w == 3 && h == 3 && testCenter(input) != null) {
+            Result r = tryCraft(input);
             if (r != null) {
                 result = new ItemStack(r.item, r.count);
                 return true;
@@ -111,7 +110,7 @@ public class UsingRecipe extends SpecialCraftingRecipe {
      * @return the already crafted {@link #result}
      */
     @Override
-    public ItemStack craft(RecipeInputInventory inventory, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
         return result;
     }
 
@@ -124,12 +123,12 @@ public class UsingRecipe extends SpecialCraftingRecipe {
      * Leave the damaged {@link ModItems#PHILOSPHER_STONE_ITEM} as remainder
      */
     @Override
-    public DefaultedList<ItemStack> getRemainder(RecipeInputInventory inventory) {
-        DefaultedList<ItemStack> remainder = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
-        final int w = inventory.getWidth();
-        final int h = inventory.getHeight();
+    public DefaultedList<ItemStack> getRemainder(CraftingRecipeInput input) {
+        DefaultedList<ItemStack> remainder = DefaultedList.ofSize(input.getSize(), ItemStack.EMPTY);
+        final int w = input.getWidth();
+        final int h = input.getHeight();
         if (w == 3 && h == 3) {
-            ItemStack center = testCenter(inventory);
+            ItemStack center = testCenter(input);
             if (center != null) {
                 final int damage = center.getDamage();
                 if (damage < center.getMaxDamage()) {

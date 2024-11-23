@@ -10,6 +10,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
@@ -30,19 +31,19 @@ public class PhilosophersStoneRecipe extends SpecialCraftingRecipe {
      * There is only one recipe, and the result is always the {@link ModItems#PHILOSPHER_STONE_ITEM}
      */
     @Override
-    public boolean matches(RecipeInputInventory inventory, World world) {
-        final int w = inventory.getWidth();
-        final int h = inventory.getHeight();
+    public boolean matches(CraftingRecipeInput input, World world) {
+        final int w = input.getWidth();
+        final int h = input.getHeight();
         return w == 3 && h == 3 &&
-                inventory.getStack(1).isOf(Items.DIAMOND_BLOCK) &&
-                inventory.getStack(7).isOf(Items.DIAMOND_BLOCK) &&
-                inventory.getStack(3).isOf(Items.GOLD_BLOCK) &&
-                inventory.getStack(5).isOf(Items.GOLD_BLOCK) &&
-                PotionUtil.matchPotion(inventory.getStack(4), Potions.HEALING);
+                input.getStackInSlot(1).isOf(Items.DIAMOND_BLOCK) &&
+                input.getStackInSlot(7).isOf(Items.DIAMOND_BLOCK) &&
+                input.getStackInSlot(3).isOf(Items.GOLD_BLOCK) &&
+                input.getStackInSlot(5).isOf(Items.GOLD_BLOCK) &&
+                PotionUtil.matchPotion(input.getStackInSlot(4), Potions.HEALING);
     }
 
     @Override
-    public ItemStack craft(RecipeInputInventory inventory, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
         return result;
     }
 

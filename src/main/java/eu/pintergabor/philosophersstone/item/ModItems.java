@@ -1,6 +1,6 @@
 package eu.pintergabor.philosophersstone.item;
 
-import eu.pintergabor.philosophersstone.util.ModIdentifier;
+import eu.pintergabor.philosophersstone.Global;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -16,7 +16,7 @@ public final class ModItems {
         // Create and register philosophers stone
         PHILOSPHER_STONE_ITEM = new PhilosopherStoneItem(
                 new Item.Settings().maxDamage(20));
-        registerItem(new ModIdentifier("philosophers_stone"), PHILOSPHER_STONE_ITEM);
+        registerItem(Global.ModIdentifier("philosophers_stone"), PHILOSPHER_STONE_ITEM);
         // Item groups
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(
                 entries -> entries.add(PHILOSPHER_STONE_ITEM));
