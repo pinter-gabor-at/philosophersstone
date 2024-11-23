@@ -15,7 +15,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
 public class PhilosophersStoneRecipe extends SpecialCraftingRecipe {
-    public static String ID = "crafting_special";
+    public static final String ID = "crafting_special";
     public static final RecipeSerializer<PhilosophersStoneRecipe> SERIALIZER =
             new SpecialRecipeSerializer<>(PhilosophersStoneRecipe::new);
     /**
