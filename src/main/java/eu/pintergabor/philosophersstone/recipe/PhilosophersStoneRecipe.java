@@ -1,9 +1,11 @@
 package eu.pintergabor.philosophersstone.recipe;
 
 import eu.pintergabor.philosophersstone.item.ModItems;
+import eu.pintergabor.philosophersstone.util.PotionUtil;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.potion.Potions;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
@@ -31,15 +33,12 @@ public class PhilosophersStoneRecipe extends SpecialCraftingRecipe {
     public boolean matches(RecipeInputInventory inventory, World world) {
         final int w = inventory.getWidth();
         final int h = inventory.getHeight();
-        if (w == 3 && h == 3) {
-            final ItemStack center = inventory.getStack(4);
-            return inventory.getStack(1).isOf(Items.DIAMOND_BLOCK) &&
-                    inventory.getStack(7).isOf(Items.DIAMOND_BLOCK) &&
-                    inventory.getStack(3).isOf(Items.GOLD_BLOCK) &&
-                    inventory.getStack(5).isOf(Items.GOLD_BLOCK) &&
-                    center.isOf(Items.POTION) /* && getPotion(center).equals(Potions.HEALING)*/;
-        }
-        return false;
+        return w == 3 && h == 3 &&
+                inventory.getStack(1).isOf(Items.DIAMOND_BLOCK) &&
+                inventory.getStack(7).isOf(Items.DIAMOND_BLOCK) &&
+                inventory.getStack(3).isOf(Items.GOLD_BLOCK) &&
+                inventory.getStack(5).isOf(Items.GOLD_BLOCK) &&
+                PotionUtil.matchPotion(inventory.getStack(4), Potions.HEALING);
     }
 
     @Override
