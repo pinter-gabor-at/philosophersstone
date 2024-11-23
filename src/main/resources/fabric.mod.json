@@ -12,7 +12,7 @@
     "sources": "https://gitlab.com/pintergabor/philosophersstone"
   },
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "eu.pintergabor.philosophersstone.icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -23,11 +23,11 @@
     ]
   },
   "mixins": [
-    "philosophersstone.mixins.json"
+    "eu.pintergabor.philosophersstone.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15",
-    "minecraft": "~1.20.4",
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.20.5",
     "java": ">=17",
     "fabric-api": "*"
   }
