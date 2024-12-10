@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
@@ -114,17 +113,12 @@ public class UsingRecipe extends SpecialCraftingRecipe {
         return result;
     }
 
-    @Override
-    public boolean fits(int width, int height) {
-        return width >= 3 && height >= 3;
-    }
-
     /**
      * Leave the damaged {@link ModItems#PHILOSPHER_STONE_ITEM} as remainder
      */
     @Override
-    public DefaultedList<ItemStack> getRemainder(CraftingRecipeInput input) {
-        DefaultedList<ItemStack> remainder = DefaultedList.ofSize(input.getSize(), ItemStack.EMPTY);
+    public DefaultedList<ItemStack> getRecipeRemainders(CraftingRecipeInput input) {
+        DefaultedList<ItemStack> remainder = DefaultedList.ofSize(input.size(), ItemStack.EMPTY);
         final int w = input.getWidth();
         final int h = input.getHeight();
         if (w == 3 && h == 3) {
@@ -142,16 +136,8 @@ public class UsingRecipe extends SpecialCraftingRecipe {
         return remainder;
     }
 
-    /**
-     * @return the already crafted result
-     */
     @Override
-    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
-        return result;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer() {
         return SERIALIZER;
     }
 }

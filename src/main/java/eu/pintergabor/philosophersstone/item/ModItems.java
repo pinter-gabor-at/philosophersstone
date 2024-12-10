@@ -4,8 +4,9 @@ import eu.pintergabor.philosophersstone.Global;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
-
-import static eu.pintergabor.philosophersstone.util.Register.registerItem;
+import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 
 public final class ModItems {
 
@@ -14,9 +15,10 @@ public final class ModItems {
 
     public static void register() {
         // Create and register philosophers stone
-        PHILOSPHER_STONE_ITEM = new PhilosopherStoneItem(
+        PHILOSPHER_STONE_ITEM = (PhilosopherStoneItem) Items.register(
+                RegistryKey.of(RegistryKeys.ITEM, Global.ModIdentifier("philosophers_stone")),
+                PhilosopherStoneItem::new,
                 new Item.Settings().maxDamage(20));
-        registerItem(Global.ModIdentifier("philosophers_stone"), PHILOSPHER_STONE_ITEM);
         // Item groups
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(
                 entries -> entries.add(PHILOSPHER_STONE_ITEM));
