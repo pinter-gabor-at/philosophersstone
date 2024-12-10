@@ -8,6 +8,6 @@ public class ModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ModelLoadingPlugin.register(pluginContext ->
-                ModelIdentifier.ofInventoryVariant(Global.ModIdentifier("philosophers_stone_3d")));
+                new ModelIdentifier(Global.ModIdentifier("philosophers_stone_3d"), "inventory"));
     }
 }
