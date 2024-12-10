@@ -1,0 +1,19 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "philosophersstone:item/philosophers_stone"
+        },
+        "when": "gui"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "philosophersstone:item/philosophers_stone_3d"
+    },
+    "property": "minecraft:display_context"
+  }
+}
