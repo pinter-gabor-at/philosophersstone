@@ -18,7 +18,7 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 public class UsingRecipe extends SpecialCraftingRecipe {
-    public static final String ID = "using";
+    public static final String ID = "using_recipe";
     public static final RecipeSerializer<UsingRecipe> SERIALIZER =
             new SpecialRecipeSerializer<>(UsingRecipe::new);
     /**
