@@ -2,7 +2,6 @@ package eu.pintergabor.philosophersstone.recipe;
 
 import eu.pintergabor.philosophersstone.item.ModItems;
 import eu.pintergabor.philosophersstone.util.PotionUtil;
-import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potions;
@@ -15,7 +14,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
 public class PhilosophersStoneRecipe extends SpecialCraftingRecipe {
-    public static String ID = "crafting_special";
+    public static final String ID = "crafting_recipe";
     public static final RecipeSerializer<PhilosophersStoneRecipe> SERIALIZER =
             new SpecialRecipeSerializer<>(PhilosophersStoneRecipe::new);
     /**

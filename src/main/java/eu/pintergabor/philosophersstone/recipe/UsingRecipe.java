@@ -18,7 +18,7 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 public class UsingRecipe extends SpecialCraftingRecipe {
-    public static String ID = "using";
+    public static final String ID = "using_recipe";
     public static final RecipeSerializer<UsingRecipe> SERIALIZER =
             new SpecialRecipeSerializer<>(UsingRecipe::new);
     /**
@@ -147,7 +147,7 @@ public class UsingRecipe extends SpecialCraftingRecipe {
      */
     @Override
     public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
-        return new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
+        return result;
     }
 
     @Override
