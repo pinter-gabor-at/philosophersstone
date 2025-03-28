@@ -5,6 +5,7 @@ import eu.pintergabor.philosophersstone.recipe.ModRecipes;
 
 import net.fabricmc.api.ModInitializer;
 
+
 public final class Mod implements ModInitializer {
 
 	@Override
