@@ -1,13 +1,13 @@
 package eu.pintergabor.philosophersstone.util;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.Potions;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 
 
 public class PotionUtil {
@@ -17,17 +17,17 @@ public class PotionUtil {
 	}
 
 	/**
-	 * Check {@code stack} is of {@code potion}
+	 * Check {@code stack} is of {@code potion}.
 	 * <p>
-	 * Similar to {@link ItemStack#isOf(Item)}, but for potions
+	 * Similar to {@link ItemStack#is(Item)}, but for potions.
 	 *
-	 * @param stack  Item stack to check
-	 * @param potion A potion from {@link Potions}
-	 * @return whether the {@code stack} is of {@code potion}
+	 * @param stack  Item stack to check.
+	 * @param potion A potion from {@link Potions}.
+	 * @return whether the {@code stack} is of {@code potion}.
 	 */
-	public static boolean matchPotion(ItemStack stack, RegistryEntry<Potion> potion) {
-		return stack.isOf(Items.POTION) &&
-			stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT)
-				.matches(potion);
+	public static boolean matchPotion(ItemStack stack, Holder<Potion> potion) {
+		return stack.is(Items.POTION) &&
+			stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
+				.is(potion);
 	}
 }

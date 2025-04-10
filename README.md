@@ -1,4 +1,4 @@
-# Philosopher's stone (Minecraft Fabric mod)
+# Philosopher's stone (Fabric and NeoForge)
 
 The philosopher's stone is a legendary  alchemical substance capable of turning base metals such as copper or iron into gold. It is also called the elixir of life, useful for rejuvenation and for achieving immortality. For many centuries, it was the most sought-after goal in alchemy. 
 
@@ -32,13 +32,16 @@ Legends always have a gist of truth, but they rarely tell the whole truth, so I 
 - There might be other, similar recipes, I am not sure, I have found them all,
 - And finally, quite sadly, it has a limited use, because it gets damaged after every use.
 
+
 ## License
 
 Standard MIT license. Feel free to learn from it and incorporate it in your own projects.
 
+
 ## Source code
 
 Available on [GitLab](https://gitlab.com/pintergabor/philosopherstone.git) or on [GitHub](https://github.com/pinter-gabor-at/philosopherstone.git).
+
 
 ## For developers
 
@@ -46,3 +49,7 @@ Quite often, when I start learning programming on a new platform, I find even th
 Tutorials, written by experts, with years of experience programming on that platform, sometimes forget how difficult those first step are.
 This is why I decided to make my first Minecraft mods publicly available, and document the source code meticulously.
 
+
+## See also
+
+My other mods on [Modrinth](https://modrinth.com/user/pinter.gabor) and on [CurseForge](https://www.curseforge.com/members/pintergabor/projects).
