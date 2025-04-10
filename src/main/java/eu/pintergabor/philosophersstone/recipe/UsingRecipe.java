@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 
 
 public class UsingRecipe extends CustomRecipe {
-	public static final String ID = "using_recipe";
+	public static final String PATH = "using_recipe";
 	public static final RecipeSerializer<UsingRecipe> SERIALIZER =
 		new CustomRecipe.Serializer<>(UsingRecipe::new);
 	/**
@@ -64,7 +64,8 @@ public class UsingRecipe extends CustomRecipe {
 	 *
 	 * @return the {@link ItemStack} of {@link ModItems#PHILOSPHER_STONE_ITEM} on success.
 	 */
-	private @Nullable ItemStack testCenter(CraftingInput input) {
+	@Nullable
+	private ItemStack testCenter(CraftingInput input) {
 		final ItemStack center = input.getItem(4);
 		return center.is(ModItems.PHILOSPHER_STONE_ITEM) ? center : null;
 	}
@@ -74,7 +75,8 @@ public class UsingRecipe extends CustomRecipe {
 	 *
 	 * @return the crafted result.
 	 */
-	private @Nullable Result tryCraft(CraftingInput input) {
+	@Nullable
+	private Result tryCraft(CraftingInput input) {
 		final Item key = input.getItem(0).getItem();
 		for (int i = 1; i < 9; i++) {
 			if (i != 4) {
@@ -95,7 +97,7 @@ public class UsingRecipe extends CustomRecipe {
 	 * @return true on match.
 	 */
 	@Override
-	public boolean matches(CraftingInput input, Level level) {
+	public boolean matches(CraftingInput input, @NotNull Level level) {
 		final int w = input.width();
 		final int h = input.height();
 		if (w == 3 && h == 3 && testCenter(input) != null) {
@@ -113,7 +115,8 @@ public class UsingRecipe extends CustomRecipe {
 	 */
 	@Override
 	@NotNull
-	public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+	public ItemStack assemble(
+		@NotNull CraftingInput input, @NotNull HolderLookup.Provider registries) {
 		return result;
 	}
 
@@ -132,7 +135,7 @@ public class UsingRecipe extends CustomRecipe {
 				final int damage = center.getDamageValue();
 				if (damage < center.getMaxDamage()) {
 					// Have to create a new one
-					center = new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
+					center = new ItemStack(ModItems.PHILOSPHER_STONE_ITEM.get());
 					center.setDamageValue(damage + 1);
 					remainder.set(4, center);
 				}
