@@ -4,29 +4,30 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 import eu.pintergabor.philosophersstone.item.ModItems;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
 
-public class UsingRecipe extends SpecialCraftingRecipe {
-	public static final String ID = "using_recipe";
+public class UsingRecipe extends CustomRecipe {
+	public static final String PATH = "using_recipe";
 	public static final RecipeSerializer<UsingRecipe> SERIALIZER =
-		new SpecialRecipeSerializer<>(UsingRecipe::new);
+		new CustomRecipe.Serializer<>(UsingRecipe::new);
 	/**
 	 * Input -> Output map.
 	 */
 	private static final Map<Item, Result> RESULTMAP = Map.ofEntries(
-		// Gold generating
+		// Gold generating.
 		new AbstractMap.SimpleImmutableEntry<>(Items.RAW_COPPER_BLOCK, new Result(Items.GOLD_BLOCK, 2)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.COPPER_BLOCK, new Result(Items.GOLD_BLOCK, 2)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.WAXED_COPPER_BLOCK, new Result(Items.GOLD_BLOCK, 2)),
@@ -34,11 +35,11 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 		new AbstractMap.SimpleImmutableEntry<>(Items.RAW_IRON_BLOCK, new Result(Items.GOLD_BLOCK, 4)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.IRON_BLOCK, new Result(Items.GOLD_BLOCK, 4)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.IRON_INGOT, new Result(Items.GOLD_INGOT, 4)),
-		// Diamond generating
+		// Diamond generating.
 		new AbstractMap.SimpleImmutableEntry<>(Items.COAL_BLOCK, new Result(Items.DIAMOND_BLOCK, 1)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.COAL, new Result(Items.DIAMOND, 1)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.CHARCOAL, new Result(Items.DIAMOND, 1)),
-		// Misc
+		// Misc.
 		new AbstractMap.SimpleImmutableEntry<>(Items.REDSTONE_TORCH, new Result(Items.REDSTONE_BLOCK, 1)),
 		new AbstractMap.SimpleImmutableEntry<>(Items.STICK, new Result(Items.OAK_LOG, 1))
 	);
@@ -54,7 +55,7 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	 */
 	private ItemStack result;
 
-	public UsingRecipe(CraftingRecipeCategory category) {
+	public UsingRecipe(CraftingBookCategory category) {
 		super(category);
 	}
 
@@ -63,9 +64,9 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	 *
 	 * @return the {@link ItemStack} of {@link ModItems#PHILOSPHER_STONE_ITEM} on success.
 	 */
-	private @Nullable ItemStack testCenter(CraftingRecipeInput input) {
-		final ItemStack center = input.getStackInSlot(4);
-		return center.isOf(ModItems.PHILOSPHER_STONE_ITEM) ? center : null;
+	private @Nullable ItemStack testCenter(CraftingInput input) {
+		final ItemStack center = input.getItem(4);
+		return center.is(ModItems.PHILOSPHER_STONE_ITEM) ? center : null;
 	}
 
 	/**
@@ -73,12 +74,12 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	 *
 	 * @return the crafted result.
 	 */
-	private @Nullable Result tryCraft(CraftingRecipeInput input) {
-		final Item key = input.getStackInSlot(0).getItem();
+	private @Nullable Result tryCraft(CraftingInput input) {
+		final Item key = input.getItem(0).getItem();
 		for (int i = 1; i < 9; i++) {
 			if (i != 4) {
-				ItemStack itemStack = input.getStackInSlot(i);
-				if (!itemStack.isOf(key)) {
+				ItemStack itemStack = input.getItem(i);
+				if (!itemStack.is(key)) {
 					return null;
 				}
 			}
@@ -94,9 +95,9 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	 * @return true on match.
 	 */
 	@Override
-	public boolean matches(CraftingRecipeInput input, World world) {
-		final int w = input.getWidth();
-		final int h = input.getHeight();
+	public boolean matches(CraftingInput input, Level level) {
+		final int w = input.width();
+		final int h = input.height();
 		if (w == 3 && h == 3 && testCenter(input) != null) {
 			Result r = tryCraft(input);
 			if (r != null) {
@@ -111,7 +112,8 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	 * @return the already crafted {@link #result}.
 	 */
 	@Override
-	public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+	@NotNull
+	public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
 		return result;
 	}
 
@@ -119,18 +121,19 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	 * Leave the damaged {@link ModItems#PHILOSPHER_STONE_ITEM} as remainder.
 	 */
 	@Override
-	public DefaultedList<ItemStack> getRecipeRemainders(CraftingRecipeInput input) {
-		DefaultedList<ItemStack> remainder = DefaultedList.ofSize(input.size(), ItemStack.EMPTY);
-		final int w = input.getWidth();
-		final int h = input.getHeight();
+	@NotNull
+	public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
+		NonNullList<ItemStack> remainder = NonNullList.withSize(input.size(), ItemStack.EMPTY);
+		final int w = input.width();
+		final int h = input.height();
 		if (w == 3 && h == 3) {
 			ItemStack center = testCenter(input);
 			if (center != null) {
-				final int damage = center.getDamage();
+				final int damage = center.getDamageValue();
 				if (damage < center.getMaxDamage()) {
 					// Have to create a new one
 					center = new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
-					center.setDamage(damage + 1);
+					center.setDamageValue(damage + 1);
 					remainder.set(4, center);
 				}
 			}
@@ -139,7 +142,8 @@ public class UsingRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public RecipeSerializer<? extends SpecialCraftingRecipe> getSerializer() {
+	@NotNull
+	public RecipeSerializer<? extends CustomRecipe> getSerializer() {
 		return SERIALIZER;
 	}
 }

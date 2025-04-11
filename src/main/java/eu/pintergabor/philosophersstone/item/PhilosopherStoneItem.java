@@ -1,20 +1,22 @@
 package eu.pintergabor.philosophersstone.item;
 
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.world.item.ItemStack;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -22,7 +24,7 @@ import net.minecraft.util.Hand;
  */
 public final class PhilosopherStoneItem extends Item {
 
-	public PhilosopherStoneItem(Item.Settings settings) {
+	public PhilosopherStoneItem(Item.Properties settings) {
 		super(settings);
 	}
 
@@ -34,34 +36,35 @@ public final class PhilosopherStoneItem extends Item {
 	 */
 	@Override
 	public void inventoryTick(
-		ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
-		if (!world.isClient() && entity instanceof ServerPlayerEntity player) {
-			StatusEffectInstance statusEffect = new StatusEffectInstance(StatusEffects.REGENERATION, 600, 0);
+		ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+		if (!level.isClientSide && entity instanceof ServerPlayer player) {
+			MobEffectInstance statusEffect = new MobEffectInstance(MobEffects.REGENERATION, 600, 0);
 			// Apply statuseffect repeatedly, and increase the damage to the PHILOSPHER_STONE_ITEM
-			if (!player.hasStatusEffect(statusEffect.getEffectType()) && player.getHealth() < 16F) {
-				player.addStatusEffect(statusEffect);
+			if (!player.hasEffect(statusEffect.getEffect()) && player.getHealth() < 16F) {
+				player.addEffect(statusEffect);
 				if (slot != null) {
 					stack = damageItem(stack, player, slot.getIndex());
 				}
 			}
 		}
-		super.inventoryTick(stack, world, entity, slot);
+		super.inventoryTick(stack, level, entity, slot);
 	}
 
 	/**
 	 * The philosophers stone has rejuvenating power.
 	 */
 	@Override
-	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-		if (user instanceof ServerPlayerEntity player &&
-			entity instanceof PassiveEntity e) {
+	@NotNull
+	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
+		if (user instanceof ServerPlayer player &&
+			entity instanceof AgeableMob e) {
 			if (!e.isBaby()) {
 				e.setBaby(true);
 				damageItem(stack, player, player.getInventory().getSelectedSlot());
-				return ActionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 		}
-		return super.useOnEntity(stack, user, entity, hand);
+		return super.interactLivingEntity(stack, user, entity, hand);
 	}
 
 	/**
@@ -71,15 +74,15 @@ public final class PhilosopherStoneItem extends Item {
 	 *              <p>same as {@code player.getInventory().getStack(slot)}.
 	 * @return the damaged item, or {@link ItemStack#EMPTY}, if fully consumed.
 	 */
-	private ItemStack damageItem(ItemStack stack, ServerPlayerEntity player, int slot) {
-		final int damage = stack.getDamage();
+	private ItemStack damageItem(ItemStack stack, ServerPlayer player, int slot) {
+		final int damage = stack.getDamageValue();
 		if (damage < stack.getMaxDamage()) {
 			// Increase damage
-			stack.setDamage(damage + 1);
+			stack.setDamageValue(damage + 1);
 		} else {
 			// Find stack in player's inventory and delete it
 			stack = ItemStack.EMPTY;
-			player.getInventory().setStack(slot, stack);
+			player.getInventory().add(slot, stack);
 		}
 		return stack;
 	}
