@@ -3,11 +3,13 @@ package eu.pintergabor.philosophersstone.recipe;
 import java.util.List;
 
 import eu.pintergabor.philosophersstone.item.ModItems;
-import eu.pintergabor.philosophersstone.util.PotionUtil;
+import eu.pintergabor.philosophersstone.util.ModUtil;
+
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
@@ -19,19 +21,15 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 
-public class PhilosophersStoneRecipe extends CustomRecipe {
+public class CraftingRecipe extends CustomRecipe {
 	public static final String PATH = "crafting_recipe";
-	public static final RecipeSerializer<PhilosophersStoneRecipe> SERIALIZER =
-		new CustomRecipe.Serializer<>(PhilosophersStoneRecipe::new);
+	public static final RecipeSerializer<CraftingRecipe> SERIALIZER =
+		new CustomRecipe.Serializer<>(CraftingRecipe::new);
 	/**
 	 * The one and only crafting result.
 	 */
 	private static final ItemStack result =
 		new ItemStack(ModItems.PHILOSPHER_STONE_ITEM.get());
-	/**
-	 * Used in {@link #matchesGoldDiamond(CraftingInput)}.
-	 */
-	private static final int[] slots = {1, 3, 5, 7};
 	/**
 	 * Used in {@link #matchesPotion(CraftingInput)}.
 	 */
@@ -41,7 +39,7 @@ public class PhilosophersStoneRecipe extends CustomRecipe {
 		Potions.REGENERATION,
 		Potions.LONG_REGENERATION);
 
-	public PhilosophersStoneRecipe(CraftingBookCategory category) {
+	public CraftingRecipe(CraftingBookCategory category) {
 		super(category);
 	}
 
@@ -49,31 +47,34 @@ public class PhilosophersStoneRecipe extends CustomRecipe {
 	 * There must be exactly two gold and two diamond blocks in cross shape.
 	 * <pre>
 	 *
-	 *   *
-	 * * p *
-	 *   *
+	 *   G             D
+	 * D + D   or    G + G
+	 *   G             D
+	 *
+	 * G = Gold block
+	 * D = Diamond block
+	 * + = Potion
 	 */
 	private static boolean matchesGoldDiamond(CraftingInput input) {
-		int countGoldBlocks = 0;
-		int countDiamondBlocks = 0;
-		for (int i : slots) {
-			final ItemStack itemStack = input.getItem(i);
-			if (itemStack.is(Items.GOLD_BLOCK)) {
-				countGoldBlocks++;
-			} else if (itemStack.is(Items.DIAMOND_BLOCK)) {
-				countDiamondBlocks++;
-			}
-		}
-		return countGoldBlocks == 2 && countDiamondBlocks == 2;
+		ItemStack i1 = input.getItem(1);
+		ItemStack i3 = input.getItem(3);
+		ItemStack i5 = input.getItem(5);
+		ItemStack i7 = input.getItem(7);
+		Item G = Items.GOLD_BLOCK;
+		Item D = Items.DIAMOND_BLOCK;
+		return (ModUtil.sameItem(i1, i7) && ModUtil.sameItem(i3, i5)) &&
+			((i1.is(G) && i3.is(D)) || (i1.is(D) && i3.is(G)));
 	}
 
 	/**
 	 * There must be one healing or regeneration potion in the middle.
+	 * <p>
+	 * See {@link #matchesGoldDiamond(CraftingInput)}.
 	 */
 	private static boolean matchesPotion(CraftingInput input) {
-		ItemStack potion = input.getItem(4);
+		ItemStack center = input.getItem(4);
 		for (var p : potions) {
-			if (PotionUtil.matchPotion(potion, p)) {
+			if (ModUtil.isPotion(center, p)) {
 				return true;
 			}
 		}

@@ -15,8 +15,8 @@ public class ModRecipes {
 	public static void init(IEventBus modEventBus) {
 		// The philosophers stone recipe.
 		RECIPE_SERIALIZERS.register(
-			PhilosophersStoneRecipe.PATH, () ->
-				PhilosophersStoneRecipe.SERIALIZER);
+			CraftingRecipe.PATH, () ->
+				CraftingRecipe.SERIALIZER);
 		// And its uses.
 		RECIPE_SERIALIZERS.register(
 			UsingRecipe.PATH, () ->
