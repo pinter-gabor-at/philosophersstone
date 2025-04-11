@@ -11,11 +11,11 @@ public class ModRecipes {
 	public static void registerRecipes() {
 		// The philosophers stone recipe.
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER,
-			Global.modId(PhilosophersStoneRecipe.ID),
-			PhilosophersStoneRecipe.SERIALIZER);
+			Global.modId(CraftingRecipe.PATH),
+			CraftingRecipe.SERIALIZER);
 		// And its uses.
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER,
-			Global.modId(UsingRecipe.ID),
+			Global.modId(UsingRecipe.PATH),
 			UsingRecipe.SERIALIZER);
 	}
 }

@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 
 
 public class UsingRecipe extends CustomRecipe {
-	public static final String ID = "using_recipe";
+	public static final String PATH = "using_recipe";
 	public static final RecipeSerializer<UsingRecipe> SERIALIZER =
 		new CustomRecipe.Serializer<>(UsingRecipe::new);
 	/**
