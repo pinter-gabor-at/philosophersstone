@@ -54,7 +54,9 @@ public class CraftingRecipe extends CustomRecipe {
 	 * D = Diamond block
 	 * + = Potion
 	 */
-	private static boolean matchesGoldDiamond(@NotNull CraftingInput input) {
+	private static boolean matchesGoldDiamond(
+		@NotNull CraftingInput input
+	) {
 		ItemStack i1 = input.getItem(1);
 		ItemStack i3 = input.getItem(3);
 		ItemStack i5 = input.getItem(5);
@@ -70,7 +72,9 @@ public class CraftingRecipe extends CustomRecipe {
 	 * <p>
 	 * See {@link #matchesGoldDiamond(CraftingInput)}.
 	 */
-	private static boolean matchesPotion(@NotNull CraftingInput input) {
+	private static boolean matchesPotion(
+		@NotNull CraftingInput input
+	) {
 		ItemStack center = input.getItem(4);
 		for (var p : potions) {
 			if (ModUtil.isPotion(center, p)) {
@@ -84,7 +88,10 @@ public class CraftingRecipe extends CustomRecipe {
 	 * There is only one recipe, and the result is always the {@link ModItems#PHILOSPHER_STONE_ITEM}.
 	 */
 	@Override
-	public boolean matches(@NotNull CraftingInput input, @NotNull Level level) {
+	public boolean matches(
+		@NotNull CraftingInput input,
+		@NotNull Level level
+	) {
 		final int w = input.width();
 		final int h = input.height();
 		return w == 3 && h == 3 &&
@@ -97,7 +104,9 @@ public class CraftingRecipe extends CustomRecipe {
 	@Override
 	@NotNull
 	public ItemStack assemble(
-		@NotNull CraftingInput input, @NotNull HolderLookup.Provider registries) {
+		@NotNull CraftingInput input,
+		@NotNull HolderLookup.Provider registries
+	) {
 		return result;
 	}
 
