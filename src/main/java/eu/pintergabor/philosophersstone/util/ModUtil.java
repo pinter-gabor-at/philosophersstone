@@ -12,8 +12,6 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
 
-import org.jetbrains.annotations.NotNull;
-
 
 /**
  * Common, unclassified, utilities for the mod.
@@ -34,7 +32,10 @@ public final class ModUtil {
 	 * @return whether the {@code stack} is of {@code item}.
 	 */
 	@SuppressWarnings("unused")
-	public static boolean isItem(@NotNull ItemStack stack, @NotNull ItemLike item) {
+	public static boolean isItem(
+		@NotNull ItemStack stack,
+		@NotNull ItemLike item
+	) {
 		return stack.is(item.asItem());
 	}
 
@@ -44,7 +45,10 @@ public final class ModUtil {
 	 * Similar to {@link ItemStack#is(Item)}.
 	 */
 	@SuppressWarnings("unused")
-	public static boolean sameItem(@NotNull ItemStack stack1, @NotNull ItemStack stack2) {
+	public static boolean sameItem(
+		@NotNull ItemStack stack1,
+		@NotNull ItemStack stack2
+	) {
 		return stack1.getItem() == stack2.getItem();
 	}
 
@@ -58,7 +62,10 @@ public final class ModUtil {
 	 * @return whether the {@code stack} is of {@code potion}.
 	 */
 	@SuppressWarnings("unused")
-	public static boolean isPotion(@NotNull ItemStack stack, Holder<Potion> potion) {
+	public static boolean isPotion(
+		@NotNull ItemStack stack,
+		Holder<Potion> potion
+	) {
 		return stack.is(Items.POTION) &&
 			stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
 				.is(potion);
