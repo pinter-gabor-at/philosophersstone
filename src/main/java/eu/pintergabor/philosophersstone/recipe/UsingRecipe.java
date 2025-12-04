@@ -65,7 +65,7 @@ public class UsingRecipe extends CustomRecipe {
 	 * @return the {@link ItemStack} of {@link ModItems#PHILOSPHER_STONE_ITEM} on success.
 	 */
 	@Nullable
-	private ItemStack testCenter(CraftingInput input) {
+	private ItemStack testCenter(@NotNull CraftingInput input) {
 		final ItemStack center = input.getItem(4);
 		return center.is(ModItems.PHILOSPHER_STONE_ITEM) ? center : null;
 	}
@@ -76,7 +76,7 @@ public class UsingRecipe extends CustomRecipe {
 	 * @return the crafted result.
 	 */
 	@Nullable
-	private Result tryCraft(CraftingInput input) {
+	private Result tryCraft(@NotNull CraftingInput input) {
 		final Item key = input.getItem(0).getItem();
 		for (int i = 1; i < 9; i++) {
 			if (i != 4) {
@@ -97,7 +97,7 @@ public class UsingRecipe extends CustomRecipe {
 	 * @return true on match.
 	 */
 	@Override
-	public boolean matches(CraftingInput input, @NotNull Level level) {
+	public boolean matches(@NotNull CraftingInput input, @NotNull Level level) {
 		final int w = input.width();
 		final int h = input.height();
 		if (w == 3 && h == 3 && testCenter(input) != null) {
@@ -125,7 +125,7 @@ public class UsingRecipe extends CustomRecipe {
 	 */
 	@Override
 	@NotNull
-	public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
+	public NonNullList<ItemStack> getRemainingItems(@NotNull CraftingInput input) {
 		NonNullList<ItemStack> remainder = NonNullList.withSize(input.size(), ItemStack.EMPTY);
 		final int w = input.width();
 		final int h = input.height();
