@@ -1,7 +1,11 @@
 package eu.pintergabor.philosophersstone.recipe;
 
+import java.util.List;
+
 import eu.pintergabor.philosophersstone.item.ModItems;
 import eu.pintergabor.philosophersstone.util.ModUtil;
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Item;
@@ -14,28 +18,25 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 
 public class CraftingRecipe extends CustomRecipe {
 	public static final String PATH = "crafting_recipe";
 	public static final RecipeSerializer<CraftingRecipe> SERIALIZER =
-			new CustomRecipe.Serializer<>(CraftingRecipe::new);
+		new CustomRecipe.Serializer<>(CraftingRecipe::new);
 	/**
 	 * The one and only crafting result.
 	 */
 	private static final ItemStack result =
-			new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
+		new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
 	/**
 	 * Used in {@link #matchesPotion(CraftingInput)}.
 	 */
 	private static final List<Holder<Potion>> potions = List.of(
-			Potions.HEALING,
-			Potions.STRONG_HEALING,
-			Potions.REGENERATION,
-			Potions.LONG_REGENERATION);
+		Potions.HEALING,
+		Potions.STRONG_HEALING,
+		Potions.REGENERATION,
+		Potions.LONG_REGENERATION);
 
 	public CraftingRecipe(CraftingBookCategory category) {
 		super(category);
@@ -53,7 +54,7 @@ public class CraftingRecipe extends CustomRecipe {
 	 * D = Diamond block
 	 * + = Potion
 	 */
-	private static boolean matchesGoldDiamond(CraftingInput input) {
+	private static boolean matchesGoldDiamond(@NotNull CraftingInput input) {
 		ItemStack i1 = input.getItem(1);
 		ItemStack i3 = input.getItem(3);
 		ItemStack i5 = input.getItem(5);
@@ -61,7 +62,7 @@ public class CraftingRecipe extends CustomRecipe {
 		Item G = Items.GOLD_BLOCK;
 		Item D = Items.DIAMOND_BLOCK;
 		return (ModUtil.sameItem(i1, i7) && ModUtil.sameItem(i3, i5)) &&
-				((i1.is(G) && i3.is(D)) || (i1.is(D) && i3.is(G)));
+			((i1.is(G) && i3.is(D)) || (i1.is(D) && i3.is(G)));
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class CraftingRecipe extends CustomRecipe {
 	 * <p>
 	 * See {@link #matchesGoldDiamond(CraftingInput)}.
 	 */
-	private static boolean matchesPotion(CraftingInput input) {
+	private static boolean matchesPotion(@NotNull CraftingInput input) {
 		ItemStack center = input.getItem(4);
 		for (var p : potions) {
 			if (ModUtil.isPotion(center, p)) {
@@ -83,11 +84,11 @@ public class CraftingRecipe extends CustomRecipe {
 	 * There is only one recipe, and the result is always the {@link ModItems#PHILOSPHER_STONE_ITEM}.
 	 */
 	@Override
-	public boolean matches(CraftingInput input, @NotNull Level level) {
+	public boolean matches(@NotNull CraftingInput input, @NotNull Level level) {
 		final int w = input.width();
 		final int h = input.height();
-		return w==3 && h==3 &&
-				matchesGoldDiamond(input) && matchesPotion(input);
+		return w == 3 && h == 3 &&
+			matchesGoldDiamond(input) && matchesPotion(input);
 	}
 
 	/**
@@ -96,7 +97,7 @@ public class CraftingRecipe extends CustomRecipe {
 	@Override
 	@NotNull
 	public ItemStack assemble(
-			@NotNull CraftingInput input, @NotNull HolderLookup.Provider registries) {
+		@NotNull CraftingInput input, @NotNull HolderLookup.Provider registries) {
 		return result;
 	}
 
