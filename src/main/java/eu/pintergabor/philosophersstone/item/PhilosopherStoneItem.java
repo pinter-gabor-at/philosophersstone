@@ -36,8 +36,12 @@ public final class PhilosopherStoneItem extends Item {
 	 */
 	@Override
 	public void inventoryTick(
-		ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
-		if (!level.isClientSide && entity instanceof ServerPlayer player) {
+		ItemStack stack,
+		@NotNull ServerLevel level,
+		Entity entity,
+		@Nullable EquipmentSlot slot
+	) {
+		if (!level.isClientSide() && entity instanceof ServerPlayer player) {
 			MobEffectInstance statusEffect = new MobEffectInstance(MobEffects.REGENERATION, 600, 0);
 			// Apply statuseffect repeatedly, and increase the damage to the PHILOSPHER_STONE_ITEM
 			if (!player.hasEffect(statusEffect.getEffect()) && player.getHealth() < 16F) {
@@ -55,7 +59,12 @@ public final class PhilosopherStoneItem extends Item {
 	 */
 	@Override
 	@NotNull
-	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
+	public InteractionResult interactLivingEntity(
+		ItemStack stack,
+		Player user,
+		LivingEntity entity,
+		InteractionHand hand
+	) {
 		if (user instanceof ServerPlayer player &&
 			entity instanceof AgeableMob e) {
 			if (!e.isBaby()) {
@@ -74,7 +83,11 @@ public final class PhilosopherStoneItem extends Item {
 	 *              <p>same as {@code player.getInventory().getStack(slot)}.
 	 * @return the damaged item, or {@link ItemStack#EMPTY}, if fully consumed.
 	 */
-	private ItemStack damageItem(ItemStack stack, ServerPlayer player, int slot) {
+	private ItemStack damageItem(
+		@NotNull ItemStack stack,
+		ServerPlayer player,
+		int slot
+	) {
 		final int damage = stack.getDamageValue();
 		if (damage < stack.getMaxDamage()) {
 			// Increase damage
