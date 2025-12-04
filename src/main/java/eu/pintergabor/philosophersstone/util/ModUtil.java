@@ -12,6 +12,8 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
 
+import org.jetbrains.annotations.NotNull;
+
 
 /**
  * Common, unclassified, utilities for the mod.
