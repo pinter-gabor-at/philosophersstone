@@ -1,5 +1,7 @@
 package eu.pintergabor.philosophersstone.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
@@ -9,8 +11,6 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
-
-import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -23,16 +23,19 @@ public final class ModUtil {
 	}
 
 	/**
-	 * Check if {@code stack} is of {@code potion}.
+	 * Check if {@code stack} is of {@code item}.
 	 * <p>
 	 * Similar to {@link ItemStack#is(Item)}, but more generic.
 	 *
-	 * @param stack  Item stack to check.
-	 * @param item Usually an item from {@link Items}.
+	 * @param stack Item stack to check.
+	 * @param item  Usually an item from {@link Items}.
 	 * @return whether the {@code stack} is of {@code item}.
 	 */
 	@SuppressWarnings("unused")
-	public static boolean isItem(@NotNull ItemStack stack, @NotNull ItemLike item) {
+	public static boolean isItem(
+		@NotNull ItemStack stack,
+		@NotNull ItemLike item
+	) {
 		return stack.is(item.asItem());
 	}
 
@@ -42,7 +45,10 @@ public final class ModUtil {
 	 * Similar to {@link ItemStack#is(Item)}.
 	 */
 	@SuppressWarnings("unused")
-	public static boolean sameItem(@NotNull ItemStack stack1, @NotNull ItemStack stack2) {
+	public static boolean sameItem(
+		@NotNull ItemStack stack1,
+		@NotNull ItemStack stack2
+	) {
 		return stack1.getItem() == stack2.getItem();
 	}
 
@@ -56,7 +62,10 @@ public final class ModUtil {
 	 * @return whether the {@code stack} is of {@code potion}.
 	 */
 	@SuppressWarnings("unused")
-	public static boolean isPotion(@NotNull ItemStack stack, Holder<Potion> potion) {
+	public static boolean isPotion(
+		@NotNull ItemStack stack,
+		Holder<Potion> potion
+	) {
 		return stack.is(Items.POTION) &&
 			stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
 				.is(potion);

@@ -1,5 +1,8 @@
 package eu.pintergabor.philosophersstone.item;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -12,11 +15,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-
 import net.minecraft.world.item.ItemStack;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -36,9 +35,9 @@ public final class PhilosopherStoneItem extends Item {
 	 */
 	@Override
 	public void inventoryTick(
-		ItemStack stack,
+		@NotNull ItemStack stack,
 		@NotNull ServerLevel level,
-		Entity entity,
+		@NotNull Entity entity,
 		@Nullable EquipmentSlot slot
 	) {
 		if (!level.isClientSide() && entity instanceof ServerPlayer player) {
@@ -60,10 +59,10 @@ public final class PhilosopherStoneItem extends Item {
 	@Override
 	@NotNull
 	public InteractionResult interactLivingEntity(
-		ItemStack stack,
-		Player user,
-		LivingEntity entity,
-		InteractionHand hand
+		@NotNull ItemStack stack,
+		@NotNull Player user,
+		@NotNull LivingEntity entity,
+		@NotNull InteractionHand hand
 	) {
 		if (user instanceof ServerPlayer player &&
 			entity instanceof AgeableMob e) {
