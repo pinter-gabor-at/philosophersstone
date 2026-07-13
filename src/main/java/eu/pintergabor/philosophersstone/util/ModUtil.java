@@ -1,6 +1,6 @@
 package eu.pintergabor.philosophersstone.util;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -33,8 +33,8 @@ public final class ModUtil {
 	 */
 	@SuppressWarnings("unused")
 	public static boolean isItem(
-		@NotNull ItemStack stack,
-		@NotNull ItemLike item
+		final @NonNull ItemStack stack,
+		final @NonNull ItemLike item
 	) {
 		return stack.is(item.asItem());
 	}
@@ -46,8 +46,8 @@ public final class ModUtil {
 	 */
 	@SuppressWarnings("unused")
 	public static boolean sameItem(
-		@NotNull ItemStack stack1,
-		@NotNull ItemStack stack2
+		final @NonNull ItemStack stack1,
+		final @NonNull ItemStack stack2
 	) {
 		return stack1.getItem() == stack2.getItem();
 	}
@@ -63,8 +63,8 @@ public final class ModUtil {
 	 */
 	@SuppressWarnings("unused")
 	public static boolean isPotion(
-		@NotNull ItemStack stack,
-		Holder<Potion> potion
+		final @NonNull ItemStack stack,
+		final @NonNull Holder<Potion> potion
 	) {
 		return stack.is(Items.POTION) &&
 			stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
