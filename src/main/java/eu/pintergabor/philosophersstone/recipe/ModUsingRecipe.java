@@ -1,7 +1,6 @@
 package eu.pintergabor.philosophersstone.recipe;
 
-import java.util.AbstractMap;
-import java.util.Map;
+import java.util.HashMap;
 
 import com.mojang.serialization.MapCodec;
 import eu.pintergabor.philosophersstone.item.ModItems;
@@ -33,23 +32,24 @@ public class ModUsingRecipe extends CustomRecipe {
 	/**
 	 * Input -> Output map.
 	 */
-	private static final Map<Item, Result> RESULTMAP = Map.ofEntries(
+	private static final HashMap<Item, Result> RESULTMAP = new HashMap<>();
+	static {
 		// Gold generating.
-		new AbstractMap.SimpleImmutableEntry<>(Items.RAW_COPPER_BLOCK, new Result(Items.GOLD_BLOCK, 2)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.COPPER_BLOCK, new Result(Items.GOLD_BLOCK, 2)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.WAXED_COPPER_BLOCK, new Result(Items.GOLD_BLOCK, 2)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.COPPER_INGOT, new Result(Items.GOLD_INGOT, 2)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.RAW_IRON_BLOCK, new Result(Items.GOLD_BLOCK, 4)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.IRON_BLOCK, new Result(Items.GOLD_BLOCK, 4)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.IRON_INGOT, new Result(Items.GOLD_INGOT, 4)),
+		RESULTMAP.put(Items.RAW_COPPER_BLOCK, new Result(Items.GOLD_BLOCK, 2));
+		RESULTMAP.put(Items.COPPER_INGOT, new Result(Items.GOLD_INGOT, 2));
+		Items.COPPER_BLOCK.asList().forEach(item ->
+			RESULTMAP.put(item, new Result(Items.GOLD_BLOCK, 2)));
+		RESULTMAP.put(Items.RAW_IRON_BLOCK, new Result(Items.GOLD_BLOCK, 4));
+		RESULTMAP.put(Items.IRON_BLOCK, new Result(Items.GOLD_BLOCK, 4));
+		RESULTMAP.put(Items.IRON_INGOT, new Result(Items.GOLD_INGOT, 4));
 		// Diamond generating.
-		new AbstractMap.SimpleImmutableEntry<>(Items.COAL_BLOCK, new Result(Items.DIAMOND_BLOCK, 1)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.COAL, new Result(Items.DIAMOND, 1)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.CHARCOAL, new Result(Items.DIAMOND, 1)),
+		RESULTMAP.put(Items.COAL_BLOCK, new Result(Items.DIAMOND_BLOCK, 1));
+		RESULTMAP.put(Items.COAL, new Result(Items.DIAMOND, 1));
+		RESULTMAP.put(Items.CHARCOAL, new Result(Items.DIAMOND, 1));
 		// Misc.
-		new AbstractMap.SimpleImmutableEntry<>(Items.REDSTONE_TORCH, new Result(Items.REDSTONE_BLOCK, 1)),
-		new AbstractMap.SimpleImmutableEntry<>(Items.STICK, new Result(Items.OAK_LOG, 1))
-	);
+		RESULTMAP.put(Items.REDSTONE_TORCH, new Result(Items.REDSTONE_BLOCK, 1));
+		RESULTMAP.put(Items.STICK, new Result(Items.OAK_LOG, 1));
+	}
 
 	/**
 	 * Similar to {@link ItemStack}, but lighter.
