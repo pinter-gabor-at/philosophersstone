@@ -1,7 +1,9 @@
 package eu.pintergabor.philosophersstone;
 
 import eu.pintergabor.philosophersstone.item.ModItems;
+import eu.pintergabor.philosophersstone.recipe.ModCraftingRecipe;
 import eu.pintergabor.philosophersstone.recipe.ModRecipes;
+import eu.pintergabor.philosophersstone.recipe.ModUsingRecipe;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -18,6 +20,9 @@ public final class ModCommon {
 	public ModCommon(IEventBus modEventBus, ModContainer modContainer, Dist dist) {
 		// Register items.
 		ModItems.init(modEventBus);
+		// Init custom recipes.
+		ModCraftingRecipe.init();
+		ModUsingRecipe.init();
 		// Register custom recipes.
 		ModRecipes.init(modEventBus);
 	}

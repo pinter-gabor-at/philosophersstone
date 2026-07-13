@@ -3,26 +3,33 @@ package eu.pintergabor.philosophersstone.recipe;
 import java.util.AbstractMap;
 import java.util.Map;
 
+import com.mojang.serialization.MapCodec;
 import eu.pintergabor.philosophersstone.item.ModItems;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 
-public class UsingRecipe extends CustomRecipe {
+/**
+ * Recipes for items that can be crafted using the Philosopher's stone as an ingredient.
+ */
+public class ModUsingRecipe extends CustomRecipe {
 	public static final String PATH = "using_recipe";
-	public static final RecipeSerializer<UsingRecipe> SERIALIZER =
-		new CustomRecipe.Serializer<>(UsingRecipe::new);
+	public static ModUsingRecipe INSTANCE;
+	public static MapCodec<ModUsingRecipe> MAP_CODEC;
+	public static StreamCodec<RegistryFriendlyByteBuf, ModUsingRecipe> STREAM_CODEC;
+	public static RecipeSerializer<ModUsingRecipe> SERIALIZER;
+
 	/**
 	 * Input -> Output map.
 	 */
@@ -55,8 +62,8 @@ public class UsingRecipe extends CustomRecipe {
 	 */
 	private ItemStack result;
 
-	public UsingRecipe(CraftingBookCategory category) {
-		super(category);
+	public ModUsingRecipe() {
+		super();
 	}
 
 	/**
@@ -64,9 +71,8 @@ public class UsingRecipe extends CustomRecipe {
 	 *
 	 * @return the {@link ItemStack} of {@link ModItems#PHILOSPHER_STONE_ITEM} on success.
 	 */
-	@Nullable
-	private ItemStack testCenter(
-		@NotNull CraftingInput input
+	private @Nullable ItemStack testCenter(
+		final @NonNull CraftingInput input
 	) {
 		final ItemStack center = input.getItem(4);
 		return center.is(ModItems.PHILOSPHER_STONE_ITEM) ? center : null;
@@ -77,9 +83,8 @@ public class UsingRecipe extends CustomRecipe {
 	 *
 	 * @return the crafted result.
 	 */
-	@Nullable
-	private Result tryCraft(
-		@NotNull CraftingInput input
+	private @Nullable Result tryCraft(
+		final @NonNull CraftingInput input
 	) {
 		final Item key = input.getItem(0).getItem();
 		for (int i = 1; i < 9; i++) {
@@ -102,8 +107,8 @@ public class UsingRecipe extends CustomRecipe {
 	 */
 	@Override
 	public boolean matches(
-		@NotNull CraftingInput input,
-		@NotNull Level level
+		final @NonNull CraftingInput input,
+		final @NonNull Level level
 	) {
 		final int w = input.width();
 		final int h = input.height();
@@ -121,10 +126,9 @@ public class UsingRecipe extends CustomRecipe {
 	 * @return the already crafted {@link #result}.
 	 */
 	@Override
-	@NotNull
-	public ItemStack assemble(
-		@NotNull CraftingInput input,
-		@NotNull HolderLookup.Provider registries
+
+	public @NonNull ItemStack assemble(
+		final @NonNull CraftingInput input
 	) {
 		return result;
 	}
@@ -133,9 +137,8 @@ public class UsingRecipe extends CustomRecipe {
 	 * Leave the damaged {@link ModItems#PHILOSPHER_STONE_ITEM} as remainder.
 	 */
 	@Override
-	@NotNull
-	public NonNullList<ItemStack> getRemainingItems(
-		@NotNull CraftingInput input
+	public @NonNull NonNullList<ItemStack> getRemainingItems(
+		final @NonNull CraftingInput input
 	) {
 		NonNullList<ItemStack> remainder = NonNullList.withSize(input.size(), ItemStack.EMPTY);
 		final int w = input.width();
@@ -156,8 +159,14 @@ public class UsingRecipe extends CustomRecipe {
 	}
 
 	@Override
-	@NotNull
-	public RecipeSerializer<? extends CustomRecipe> getSerializer() {
+	public @NonNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
 		return SERIALIZER;
+	}
+
+	public static void init() {
+		INSTANCE = new ModUsingRecipe();
+		MAP_CODEC = MapCodec.unit(INSTANCE);
+		STREAM_CODEC = StreamCodec.unit(INSTANCE);
+		SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 	}
 }
