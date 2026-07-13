@@ -2,33 +2,36 @@ package eu.pintergabor.philosophersstone.recipe;
 
 import java.util.List;
 
+import com.mojang.serialization.MapCodec;
 import eu.pintergabor.philosophersstone.item.ModItems;
 import eu.pintergabor.philosophersstone.util.ModUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 
-public class CraftingRecipe extends CustomRecipe {
+/**
+ * Craftiong recipes of a new Philosopher's stone
+ */
+public class ModCraftingRecipe extends CustomRecipe {
 	public static final String PATH = "crafting_recipe";
-	public static final RecipeSerializer<CraftingRecipe> SERIALIZER =
-		new CustomRecipe.Serializer<>(CraftingRecipe::new);
-	/**
-	 * The one and only crafting result.
-	 */
-	private static final ItemStack result =
-		new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
+	public static ModCraftingRecipe INSTANCE;
+	public static MapCodec<ModCraftingRecipe> MAP_CODEC;
+	public static StreamCodec<RegistryFriendlyByteBuf, ModCraftingRecipe> STREAM_CODEC;
+	public static RecipeSerializer<ModCraftingRecipe> SERIALIZER;
+
 	/**
 	 * Used in {@link #matchesPotion(CraftingInput)}.
 	 */
@@ -38,8 +41,8 @@ public class CraftingRecipe extends CustomRecipe {
 		Potions.REGENERATION,
 		Potions.LONG_REGENERATION);
 
-	public CraftingRecipe(CraftingBookCategory category) {
-		super(category);
+	public ModCraftingRecipe() {
+		super();
 	}
 
 	/**
@@ -92,18 +95,22 @@ public class CraftingRecipe extends CustomRecipe {
 	}
 
 	/**
-	 * @return the already crafted {@link #result}.
+	 * @return the created Philosopher's stone.
 	 */
 	@Override
-	@NotNull
-	public ItemStack assemble(
-		@NotNull CraftingInput input, @NotNull HolderLookup.Provider registries) {
-		return result;
+	public @NonNull ItemStack assemble(CraftingInput input) {
+		return new ItemStack(ModItems.PHILOSPHER_STONE_ITEM);
 	}
 
 	@Override
-	@NotNull
-	public RecipeSerializer<? extends CustomRecipe> getSerializer() {
+	public @NonNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
 		return SERIALIZER;
+	}
+
+	public static void init() {
+		INSTANCE = new ModCraftingRecipe();
+		MAP_CODEC = MapCodec.unit(INSTANCE);
+		STREAM_CODEC = StreamCodec.unit(INSTANCE);
+		SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 	}
 }

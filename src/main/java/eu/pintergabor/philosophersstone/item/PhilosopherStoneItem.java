@@ -1,7 +1,7 @@
 package eu.pintergabor.philosophersstone.item;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -35,10 +35,10 @@ public final class PhilosopherStoneItem extends Item {
 	 */
 	@Override
 	public void inventoryTick(
-		@NotNull ItemStack stack,
-		@NotNull ServerLevel level,
-		@NotNull Entity entity,
-		@Nullable EquipmentSlot slot
+		@NonNull ItemStack stack,
+		final @NonNull ServerLevel level,
+		final @NonNull Entity entity,
+		final @Nullable EquipmentSlot slot
 	) {
 		if (!level.isClientSide() && entity instanceof ServerPlayer player) {
 			MobEffectInstance statusEffect = new MobEffectInstance(MobEffects.REGENERATION, 600, 0);
@@ -57,12 +57,11 @@ public final class PhilosopherStoneItem extends Item {
 	 * The philosophers stone has rejuvenating power.
 	 */
 	@Override
-	@NotNull
-	public InteractionResult interactLivingEntity(
-		@NotNull ItemStack stack,
-		@NotNull Player user,
-		@NotNull LivingEntity entity,
-		@NotNull InteractionHand hand
+	public @NonNull InteractionResult interactLivingEntity(
+		@NonNull ItemStack stack,
+		final @NonNull Player user,
+		final @NonNull LivingEntity entity,
+		final @NonNull InteractionHand hand
 	) {
 		if (user instanceof ServerPlayer player &&
 			entity instanceof AgeableMob e) {
@@ -83,9 +82,9 @@ public final class PhilosopherStoneItem extends Item {
 	 * @return the damaged item, or {@link ItemStack#EMPTY}, if fully consumed.
 	 */
 	private ItemStack damageItem(
-		@NotNull ItemStack stack,
-		ServerPlayer player,
-		int slot
+		@NonNull ItemStack stack,
+		final @NonNull ServerPlayer player,
+		final int slot
 	) {
 		final int damage = stack.getDamageValue();
 		if (damage < stack.getMaxDamage()) {
